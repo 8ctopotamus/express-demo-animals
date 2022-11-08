@@ -13,14 +13,14 @@ const renderAnimals = (animals) => {
   })
 }
 
-// select.addEventListener('change', e => {
-//   const animalType = e.target.value
+select.addEventListener('change', e => {
+  const animalType = e.target.value
   
-//   fetch(`/api/animal/${animalType}`)
-//     .then(response => response.json())
-//     .then(animals => renderAnimals(animals))
-//     .catch(err => console.log(err))
-// })
+  fetch(`/api/animals/${animalType}`)
+    .then(response => response.json())
+    .then(animals => renderAnimals(animals))
+    .catch(err => console.log(err))
+})
 
 // fetch all animals on page-load
 fetch('/api/animals')
