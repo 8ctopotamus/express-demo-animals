@@ -5,10 +5,29 @@ const PORT = 3000
 const animalData = require('./animals.json')
 
 app.use(express.static("public"))
+app.use(express.json())
 
 // API routes
 app.get('/api/animals', (req, res) => {
   res.json(animalData)
+})
+
+app.post('/api/animals', (req, res) => {
+  const { name, age, type } = req.body
+
+  if (!name || !age || !type) {
+    res.status(400).json({ error: 'Missing name, age, or type.' })
+    return
+  }
+
+  const newAnimal = {
+    ...req.body,
+    id: Math.random()
+  }
+
+  animalData.push(newAnimal)
+
+  res.json(newAnimal)
 })
 
 app.get('/api/animals/:animalType', (req, res) => {
@@ -29,6 +48,7 @@ app.get('/api/animals/:animalType', (req, res) => {
 
   res.json(results)
 })
+
 
 // view (html) routes
 app.get('/', (req, res) => {
