@@ -14,9 +14,20 @@ app.get('/api/animals', (req, res) => {
 app.get('/api/animals/:animalType', (req, res) => {
   const animalType = req.params.animalType
   
-  const result = animalData.filter(animal => animal.type === animalType)
+  const pattern = /[a-z]/g
 
-  res.json(result)
+  if (!pattern.test(animalType)) {
+    res.status(400).json({ error: 'Not a valid animalType' })
+    return
+  }
+  
+  const results = animalData.filter(animal => animal.type === animalType)
+
+  if (results.length === 0) {
+    res.status(404)
+  }
+
+  res.json(results)
 })
 
 // view (html) routes
