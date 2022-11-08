@@ -1,0 +1,22 @@
+body {
+  background-color: darkslateblue;
+  color: white;
+}
+
+a {
+  color: cyan;
+}
+
+.container {
+  display: block;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+label, input {
+  display: block;
+}
+
+input {
+  margin-bottom: 15px;
+}
