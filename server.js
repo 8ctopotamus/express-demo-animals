@@ -81,6 +81,31 @@ app.get('/api/animals/:animalType', (req, res) => {
   })
 })
 
+app.delete('/api/animals/:id', (req, res) => {
+  const id = req.params.id
+
+  if (!id) {
+    return res.status(400).json({ error: "We need an id" })
+  }
+
+  // read json file
+  fs.readFile(path.join(__dirname, "animals.json"), "utf8", function(err, data) {
+    // parse the contents
+    const animalData = JSON.parse(data)
+    // modify contents
+    const updatedAnimalData = animalData.filter(animal => id != animal.id)
+    // stringify contents and re-save file
+    fs.writeFile(path.join(__dirname, "animals.json"), JSON.stringify(updatedAnimalData), function(err) {
+      if (err) {
+        return res.status(500).json(err)
+      }
+      res.json(true)
+    })
+  })
+
+  console.log('Delete route hit!')
+})
+
 
 // view (html) routes
 app.get('/', (req, res) => {
