@@ -1,3 +1,7 @@
+INSERT INTO animalTypes (name) VALUES ("Bear");
+INSERT INTO animalTypes (name) VALUES ("Fish");
+INSERT INTO animalTypes (name) VALUES ("Bird");
+
 INSERT INTO animals (name, age, animalTypeId, hasOwner) 
 VALUES ("Arthur", 12, 1, false);
 
@@ -15,3 +19,4 @@ VALUES ("Bowser", 1, 1);
 
 INSERT INTO animals (name, age, animalTypeId)
 VALUES ("Ivy", 8, 1);
+

@@ -1,7 +1,7 @@
 const form = document.querySelector('form')
 const nameInput = document.querySelector('[name="name"]')
 const ageInput = document.querySelector('[name="age"]')
-const typeInput = document.querySelector('[name="type"]')
+const typeInput = document.querySelector('[name="animalTypeId"]')
 
 
 function handleSubmit(event) {
@@ -10,7 +10,7 @@ function handleSubmit(event) {
   const newAnimal = {
     name: nameInput.value,
     age: parseInt(ageInput.value),
-    type: typeInput.value,
+    animalTypeId: parseInt(typeInput.value),
   }
 
   fetch('/api/animals', {

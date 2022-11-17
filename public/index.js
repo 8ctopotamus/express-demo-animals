@@ -8,7 +8,7 @@ const renderAnimals = (animals) => {
     li.innerHTML = `
       <div class="card">
         <h2>${animal.name}</h2>
-        <p>${animal.type} | ${animal.age}</p>
+        <p>${animal.animalType} | ${animal.age}</p>
         <button data-id="${animal.id}">X</button>
       </div>
     `

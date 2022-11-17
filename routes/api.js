@@ -7,46 +7,36 @@ const dbPath = path.join(__dirname, "..", "db", "animals.json")
 
 router.get('/animals', async (req, res) => {
   try {
-    const [results] = await connection.promise().query("SELECT * FROM animals")
+    const [results] = await connection.promise().query(`
+      SELECT animals.id, animals.name, animals.age, animalTypes.name AS animalType
+      FROM animals
+      INNER JOIN animalTypes ON animals.animalTypeId = animalTypes.id
+    `)
     res.status(200).json(results)
   } catch(err) {
     res.status(500).json(err)
   }
 })
 
-router.post('/animals', (req, res) => {
-  const { name, age, type } = req.body
+router.post('/animals', async (req, res) => {
+  const { name, age, animalTypeId } = req.body
 
-  if (!name || !age || !type) {
-    res.status(400).json({ error: 'Missing name, age, or type.' })
+  if (!name || !age || !animalTypeId) {
+    res.status(400).json({ error: 'Missing name, age, or animalTypeId.' })
     return
   }
 
-  const newAnimal = {
-    ...req.body,
-    id: Math.random()
+  try {
+    await connection.promise().query(
+      "INSERT INTO animals (name, age, animalTypeId) VALUES (?, ?, ?)",
+      [name, age, animalTypeId]
+    )
+    res.json(true)
+  } catch(err) {
+    res.status(500).json(err)
   }
-
-  // Read contents of animals.json
-  fs.readFile(dbPath, "utf-8", function(err, data) {
-    if (err) {
-      res.status(500).json(err)
-      return
-    }
-    // parse string into JSON
-    const animalData = JSON.parse(data)
-    // push our animal into json
-    animalData.push(newAnimal)
-    // stringify animals array and save file
-    fs.writeFile(dbPath, JSON.stringify(animalData), function(err) {
-      if (err) {
-        res.status(500).json(err)
-        return
-      }
-      res.status(200).json(newAnimal)
-    })
-  })
 })
+
 
 router.get('/animals/:animalType', (req, res) => {
   const animalType = req.params.animalType
